@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>彩票号码生成器 - 双色球 & 大乐透 & 快乐8</title>
+    <title>彩票号码生成器 - 双色球 & 大乐透 & 快乐8 & 福彩3D</title>
     <style>
         * {
             margin: 0;
@@ -13,32 +13,102 @@
 
         body {
             font-family: 'Microsoft YaHei', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
             min-height: 100vh;
             padding: 20px;
             color: #333;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .header {
             text-align: center;
             margin-bottom: 40px;
             color: white;
+            position: relative;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .header::before, .header::after {
+            content: '✨';
+            position: absolute;
+            top: -10px;
+            font-size: 2.5rem;
+            animation: sparkle 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 5px gold);
+        }
+
+        .header::before {
+            left: 15%;
+            animation-delay: 0s;
+        }
+
+        .header::after {
+            right: 15%;
+            animation-delay: 1s;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 0.8; }
         }
 
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4d96ff);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textGradient 3s ease infinite;
+        }
+
+        @keyframes textGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .header p {
             font-size: 1.1rem;
             opacity: 0.9;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            animation: fadeInOut 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
         }
 
         .number-ball.small {
@@ -67,12 +137,15 @@
             display: flex;
             justify-content: center;
             margin-bottom: 30px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.15);
             border-radius: 50px;
             padding: 5px;
-            max-width: 500px;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
 
         .tab {
@@ -85,21 +158,76 @@
             cursor: pointer;
             font-size: 1rem;
             font-weight: bold;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+        }
+
+        .tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .tab:hover::before {
+            left: 100%;
         }
 
         .tab.active {
-            background: white;
-            color: #667eea;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcf7f, #4d96ff);
+            background-size: 200% 200%;
+            animation: tabGradient 3s ease infinite;
+            color: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transform: translateY(-2px);
+        }
+
+        @keyframes tabGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .lottery-section {
-            background: white;
-            border-radius: 20px;
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border-radius: 25px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 
+                0 10px 30px rgba(0,0,0,0.15),
+                inset 0 1px 0 rgba(255,255,255,0.8);
             margin-bottom: 30px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .lottery-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .lottery-section:hover::before {
+            left: 100%;
+        }
+
+        .lottery-section:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 20px 50px rgba(0,0,0,0.25),
+                0 0 30px rgba(255,215,0,0.3);
         }
 
         .section-title {
@@ -128,10 +256,31 @@
             font-size: 1.5rem;
             font-weight: bold;
             color: white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 
+                0 4px 10px rgba(0,0,0,0.2),
+                inset 0 -2px 5px rgba(0,0,0,0.1);
             opacity: 0;
             transform: scale(0);
             transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .number-ball::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            transform: rotate(45deg);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .number-ball:hover::after {
+            opacity: 1;
         }
 
         .number-ball.show {
@@ -141,14 +290,57 @@
 
         .number-ball.red {
             background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            animation: redPulse 2s ease-in-out infinite;
         }
 
         .number-ball.blue {
             background: linear-gradient(135deg, #4834d4, #686de0);
+            box-shadow: 0 4px 15px rgba(72, 52, 212, 0.4);
+            animation: blueGlow 3s ease-in-out infinite;
         }
 
         .number-ball.green {
             background: linear-gradient(135deg, #00b894, #00cec9);
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4);
+            animation: greenBounce 2.5s ease-in-out infinite;
+        }
+
+        .number-ball.gold {
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.6);
+            animation: goldGlow 2s ease-in-out infinite alternate;
+        }
+
+        .number-ball.purple {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.6);
+            animation: purplePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes redPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes blueGlow {
+            0%, 100% { box-shadow: 0 4px 15px rgba(72, 52, 212, 0.4); }
+            50% { box-shadow: 0 4px 25px rgba(72, 52, 212, 0.7); }
+        }
+
+        @keyframes greenBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes goldGlow {
+            0% { box-shadow: 0 4px 20px rgba(255, 215, 0, 0.6); }
+            100% { box-shadow: 0 4px 30px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.4); }
+        }
+
+        @keyframes purplePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .controls {
@@ -282,30 +474,57 @@
         }
 
         .generate-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #667eea, #764ba2, #ff6b6b, #ffd93d);
+            background-size: 300% 300%;
             color: white;
             border: none;
             padding: 15px 40px;
             font-size: 1.1rem;
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.4s ease;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+            animation: buttonGradient 4s ease infinite;
+            text-shadow: 0 0 5px rgba(0,0,0,0.3);
+        }
+
+        .generate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .generate-btn:hover::before {
+            left: 100%;
         }
 
         .generate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
         }
 
         .generate-btn:active {
-            transform: translateY(0);
+            transform: translateY(-1px) scale(1.02);
         }
 
         .generate-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
+            animation: none;
+        }
+
+        @keyframes buttonGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .history {
@@ -321,17 +540,48 @@
         .history-list {
             max-height: 200px;
             overflow-y: auto;
-            background: #f8f9fa;
-            border-radius: 10px;
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
             padding: 15px;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .history-list:hover {
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .history-item {
             margin-bottom: 15px;
-            padding: 10px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 12px;
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border-radius: 12px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .history-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .history-item:hover::before {
+            left: 100%;
+        }
+
+        .history-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
         }
 
         .history-item:last-child {
@@ -355,19 +605,84 @@
             font-size: 0.9rem;
             font-weight: bold;
             color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .history-ball::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+            transform: rotate(45deg);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .history-ball:hover::after {
+            opacity: 1;
+        }
+
+        .history-ball:hover {
+            transform: scale(1.1);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.4);
         }
 
         .history-ball.red {
             background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            animation: historyRedPulse 2s ease-in-out infinite;
         }
 
         .history-ball.blue {
             background: linear-gradient(135deg, #4834d4, #686de0);
+            animation: historyBlueGlow 3s ease-in-out infinite;
         }
 
         .history-ball.green {
             background: linear-gradient(135deg, #00b894, #00cec9);
+            animation: historyGreenBounce 2.5s ease-in-out infinite;
+        }
+
+        .history-ball.gold {
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.6);
+            animation: historyGoldGlow 2s ease-in-out infinite alternate;
+        }
+
+        .history-ball.purple {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            box-shadow: 0 2px 10px rgba(155, 89, 182, 0.6);
+            animation: historyPurplePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes historyRedPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes historyBlueGlow {
+            0%, 100% { box-shadow: 0 2px 6px rgba(72, 52, 212, 0.4); }
+            50% { box-shadow: 0 2px 12px rgba(72, 52, 212, 0.7); }
+        }
+
+        @keyframes historyGreenBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        @keyframes historyGoldGlow {
+            0% { box-shadow: 0 2px 10px rgba(255, 215, 0, 0.6); }
+            100% { box-shadow: 0 2px 15px rgba(255, 215, 0, 0.8); }
+        }
+
+        @keyframes historyPurplePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .history-type {
@@ -475,6 +790,22 @@
         .pulse {
             animation: pulse 0.5s ease-in-out;
         }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .rainbow-bg {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: rainbow 15s ease infinite;
+        }
+
+        .glow-effect {
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
+        }
     </style>
 </head>
 <body>
@@ -488,6 +819,7 @@
             <button class="tab active" data-type="ssq">双色球</button>
             <button class="tab" data-type="dlt">大乐透</button>
             <button class="tab" data-type="kl8">快乐8</button>
+            <button class="tab" data-type="fc3d">福彩3D</button>
         </div>
 
         <!-- 双色球区域 -->
@@ -556,6 +888,39 @@
                 <div class="history-list" id="kl8-history"></div>
             </div>
         </div>
+
+        <!-- 福彩3D区域 -->
+        <div class="lottery-section rainbow-bg" id="fc3d-section" style="display: none;">
+            <h2 class="section-title" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">福彩3D号码生成</h2>
+            <div class="number-selector">
+                <label style="color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">选择投注方式：</label>
+                <div class="custom-select" style="width:220px;">
+                    <select id="fc3d-type">
+                        <option value="direct">直选（3个号码）</option>
+                        <option value="group3">组选三</option>
+                        <option value="group6">组选六</option>
+                    </select>
+                    <div class="select-selected">直选（3个号码）</div>
+                    <div class="select-items select-hide">
+                        <div>直选（3个号码）</div>
+                        <div>组选三</div>
+                        <div>组选六</div>
+                    </div>
+                </div>
+            </div>
+            <div class="numbers-display" id="fc3d-numbers">
+                <!-- 号码球将通过JS动态生成 -->
+            </div>
+            <div class="controls">
+                <button class="generate-btn glow-effect" id="generate-fc3d">生成3D号码</button>
+            </div>
+            <div class="history">
+                <h3 style="color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">历史记录</h3>
+                <div class="history-list" style="background: rgba(255,255,255,0.9);">
+                    <div id="fc3d-history"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -564,22 +929,28 @@
         let ssqHistory = [];
         let dltHistory = [];
         let kl8History = [];
+        let fc3dHistory = [];
 
         // DOM 元素
         const tabs = document.querySelectorAll('.tab');
         const ssqSection = document.getElementById('ssq-section');
         const dltSection = document.getElementById('dlt-section');
         const kl8Section = document.getElementById('kl8-section');
+        const fc3dSection = document.getElementById('fc3d-section');
         const ssqNumbers = document.getElementById('ssq-numbers');
         const dltNumbers = document.getElementById('dlt-numbers');
         const kl8Numbers = document.getElementById('kl8-numbers');
+        const fc3dNumbers = document.getElementById('fc3d-numbers');
         const generateSsqBtn = document.getElementById('generate-ssq');
         const generateDltBtn = document.getElementById('generate-dlt');
         const generateKl8Btn = document.getElementById('generate-kl8');
+        const generateFc3dBtn = document.getElementById('generate-fc3d');
         const kl8CountSelect = document.getElementById('kl8-count');
+        const fc3dTypeSelect = document.getElementById('fc3d-type');
         const ssqHistoryList = document.getElementById('ssq-history');
         const dltHistoryList = document.getElementById('dlt-history');
         const kl8HistoryList = document.getElementById('kl8-history');
+        const fc3dHistoryList = document.getElementById('fc3d-history');
 
         // 工具函数：生成不重复的随机数
         function generateUniqueNumbers(count, min, max) {
@@ -605,11 +976,13 @@
         }
 
         // 创建号码球元素
-        function createNumberBall(number, isBlue = false, isGreen = false, isSmall = false) {
+        function createNumberBall(number, isBlue = false, isGreen = false, isGold = false, isPurple = false, isSmall = false) {
             const ball = document.createElement('div');
             let colorClass = 'red';
             if (isBlue) colorClass = 'blue';
             if (isGreen) colorClass = 'green';
+            if (isGold) colorClass = 'gold';
+            if (isPurple) colorClass = 'purple';
             
             ball.className = `number-ball ${colorClass} ${isSmall ? 'small' : ''}`;
             ball.textContent = number.toString().padStart(2, '0');
@@ -635,7 +1008,12 @@
             } else if (type === 'kl8') {
                 // 快乐8：10个绿色号码球
                 numbers.forEach(num => {
-                    balls.push(createNumberBall(num, false, true, true));
+                    balls.push(createNumberBall(num, false, true, false, false, true));
+                });
+            } else if (type === 'fc3d') {
+                // 福彩3D：3个金色号码球
+                numbers.forEach(num => {
+                    balls.push(createNumberBall(num, false, false, true));
                 });
             } else {
                 // 双色球：6个红球 + 1个蓝球
@@ -651,19 +1029,19 @@
             });
             
             // 逐个显示动画
-                balls.forEach((ball, index) => {
+            balls.forEach((ball, index) => {
+                setTimeout(() => {
+                    ball.classList.add('show', 'bounce-in');
+                    
+                    // 添加脉冲效果
                     setTimeout(() => {
-                        ball.classList.add('show', 'bounce-in');
-                        
-                        // 添加脉冲效果
+                        ball.classList.add('pulse');
                         setTimeout(() => {
-                            ball.classList.add('pulse');
-                            setTimeout(() => {
-                                ball.classList.remove('pulse');
-                            }, 500);
-                        }, 300);
-                    }, index * (type === 'kl8' ? 150 : 200)); // 快乐8号码较多，动画间隔稍短
-                });
+                            ball.classList.remove('pulse');
+                        }, 500);
+                    }, 300);
+                }, index * (type === 'kl8' ? 150 : (type === 'fc3d' ? 300 : 200))); // 不同彩票类型设置不同的动画间隔
+            });
         }
 
         // 生成快乐8号码
@@ -671,8 +1049,28 @@
             return generateUniqueNumbers(count, 1, 80);
         }
 
+        // 生成福彩3D号码
+        function generateFC3D(type = 'direct') {
+            if (type === 'direct') {
+                // 直选：3个不重复的号码
+                return generateUniqueNumbers(3, 0, 9);
+            } else if (type === 'group3') {
+                // 组选三：有重复的号码，如112
+                const num1 = Math.floor(Math.random() * 10);
+                let num2 = Math.floor(Math.random() * 10);
+                while (num2 === num1) {
+                    num2 = Math.floor(Math.random() * 10);
+                }
+                const nums = [num1, num1, num2];
+                return nums.sort(() => Math.random() - 0.5);
+            } else if (type === 'group6') {
+                // 组选六：3个不重复的号码
+                return generateUniqueNumbers(3, 0, 9);
+            }
+        }
+
         // 创建历史记录小球
-        function createHistoryBall(number, type) {
+        function createHistoryBall(number, type, numbers) {
             const ball = document.createElement('div');
             let colorClass = 'red';
             
@@ -682,6 +1080,8 @@
                 colorClass = 'blue';
             } else if (type === 'kl8') {
                 colorClass = 'green';
+            } else if (type === 'fc3d') {
+                colorClass = 'gold';
             }
             
             ball.className = `history-ball ${colorClass}`;
@@ -723,6 +1123,21 @@
                 }
                 
                 updateHistoryDisplay(kl8HistoryList, kl8History, type);
+            } else if (type === 'fc3d') {
+                const typeMap = {
+                    'direct': '直选',
+                    'group3': '组选三',
+                    'group6': '组选六'
+                };
+                historyItem = { type: `福彩3D-${typeMap[kl8Count]}`, numbers: numbers };
+                fc3dHistory.unshift(historyItem);
+                
+                // 限制历史记录数量
+                if (fc3dHistory.length > 10) {
+                    fc3dHistory.pop();
+                }
+                
+                updateHistoryDisplay(fc3dHistoryList, fc3dHistory, type);
             }
         }
 
@@ -762,6 +1177,11 @@
                     item.numbers.forEach(num => {
                         ballsDiv.appendChild(createHistoryBall(num, type));
                     });
+                } else if (type === 'fc3d') {
+                    // 福彩3D：所有号码
+                    item.numbers.forEach(num => {
+                        ballsDiv.appendChild(createHistoryBall(num, type));
+                    });
                 }
                 
                 div.appendChild(ballsDiv);
@@ -782,6 +1202,7 @@
             ssqSection.style.display = type === 'ssq' ? 'block' : 'none';
             dltSection.style.display = type === 'dlt' ? 'block' : 'none';
             kl8Section.style.display = type === 'kl8' ? 'block' : 'none';
+            fc3dSection.style.display = type === 'fc3d' ? 'block' : 'none';
         }
 
         // 事件监听器
@@ -831,6 +1252,21 @@
             // 1秒后重新启用按钮
             setTimeout(() => {
                 generateKl8Btn.disabled = false;
+            }, 1000);
+        });
+
+        generateFc3dBtn.addEventListener('click', () => {
+            // 禁用按钮防止重复点击
+            generateFc3dBtn.disabled = true;
+            
+            const type = fc3dTypeSelect.value;
+            const numbers = generateFC3D(type);
+            displayNumbersWithAnimation(numbers, fc3dNumbers, 'fc3d');
+            addHistory(numbers, 'fc3d', type);
+            
+            // 1秒后重新启用按钮
+            setTimeout(() => {
+                generateFc3dBtn.disabled = false;
             }, 1000);
         });
 
@@ -898,9 +1334,10 @@
             switchTab('ssq');
             
             // 初始化历史记录显示
-            updateHistoryDisplay(ssqHistoryList, ssqHistory);
-            updateHistoryDisplay(dltHistoryList, dltHistory);
-            updateHistoryDisplay(kl8HistoryList, kl8History);
+            updateHistoryDisplay(ssqHistoryList, ssqHistory, 'ssq');
+            updateHistoryDisplay(dltHistoryList, dltHistory, 'dlt');
+            updateHistoryDisplay(kl8HistoryList, kl8History, 'kl8');
+            updateHistoryDisplay(fc3dHistoryList, fc3dHistory, 'fc3d');
             
             // 初始化自定义下拉框
             initCustomSelect();
